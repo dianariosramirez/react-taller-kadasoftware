@@ -2,13 +2,16 @@
 import { createRoot } from 'react-dom/client';
 
 // Components
-import { Pet } from './Pet';
+import { PetList } from './components/PetList/PetList';
 
-const App = () => (
-  <div>
-    <Pet name="Terry02" animal="Cotorro" breed="croquetas" />
-  </div>
-);
+const App = () => {
+  return (
+    <div>
+      <h1>Lista de mascotas</h1>
+      <PetList />
+    </div>
+  );
+};
 
 const container = document.getElementById('root');
 const root = createRoot(container);

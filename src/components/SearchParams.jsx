@@ -1,18 +1,42 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Custom Hook
+import { useBreedList } from '../hooks/useBreedList';
+
+// Components
+import { Results } from './Results/Results';
 
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 
 export const SearchParams = () => {
-  const [location, setLocation] = useState();
-  const [animal, setAnimal] = useState();
-  const [breed, setBreed] = useState();
-  const breeds = ['croquetas', 'semillas', 'carne'];
+  const [location, setLocation] = useState('');
+  const [animal, setAnimal] = useState('');
+  const [breed, setBreed] = useState('');
+  const [pets, setPets] = useState([]);
+  const [breeds] = useBreedList(animal);
+
+  useEffect(() => {
+    requestPets();
+  }, []);
+
+  const requestPets = async () => {
+    const res = await fetch(
+      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+    );
+
+    const json = await res.json();
+
+    setPets(json.pets);
+  };
+
+  console.log('pets:', pets);
+
   console.log(location);
 
   return (
     <div className="search-params">
-      <form>
+      <form onSubmit={() => {}}>
         <label htmlFor="location">
           Location
           <input
@@ -50,6 +74,7 @@ export const SearchParams = () => {
           Breed
           <select
             id="breed"
+            disabled={breeds.length === 0}
             value={breed}
             onChange={(e) => setBreed(e.target.value)}
             onBlur={(e) => setBreed(e.target.value)}
@@ -64,7 +89,9 @@ export const SearchParams = () => {
             })}
           </select>
         </label>
+        <button type="submit">Submit</button>
       </form>
+      <Results pets={pets} />
     </div>
   );
 };

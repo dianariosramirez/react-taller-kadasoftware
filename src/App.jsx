@@ -2,13 +2,13 @@
 import { createRoot } from 'react-dom/client';
 
 // Components
-import { PetList } from './components/PetList/PetList';
+import { SearchParams } from './components/SearchParams';
 
 const App = () => {
   return (
     <div>
-      <h1>Lista de mascotas</h1>
-      <PetList />
+      <h1>Adopt Me!</h1>
+      <SearchParams />
     </div>
   );
 };
